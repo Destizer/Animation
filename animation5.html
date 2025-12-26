@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анимация 5 - Прямоугольник с линиями</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .animation-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 70vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        /* ОДИН прямоугольник */
+        .rectangle {
+            position: relative;
+            width: 400px;
+            height: 300px;
+            background: #4a4a4a;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: rectangleBg 12s ease-in-out infinite;
+        }
+
+        @keyframes rectangleBg {
+            0%, 70% {
+                background: #4a4a4a;
+            }
+
+            75%, 85% {
+                background: #e91e63;
+            }
+
+            90%, 100% {
+                background: #4a4a4a;
+            }
+        }
+
+        /* Три линии */
+        .line {
+            width: 250px;
+            height: 8px;
+            background: #e91e63;
+            border-radius: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Верхняя линия - перекрещивается */
+        .line-top {
+            animation: lineTopCross 12s ease-in-out infinite;
+        }
+
+        @keyframes lineTopCross {
+            0%, 15% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            25%, 65% {
+                transform: translateY(30px) rotate(45deg);
+            }
+
+            75%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+        }
+
+        /* Центральная линия - уезжает вправо */
+        .line-center {
+            animation: lineCenterMove 12s ease-in-out infinite;
+        }
+
+        @keyframes lineCenterMove {
+            0%, 15% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            25%, 65% {
+                transform: translateX(500px);
+                opacity: 0;
+            }
+
+            75%, 100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Нижняя линия - перекрещивается */
+        .line-bottom {
+            animation: lineBottomCross 12s ease-in-out infinite;
+        }
+
+        @keyframes lineBottomCross {
+            0%, 15% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            25%, 65% {
+                transform: translateY(-30px) rotate(-45deg);
+            }
+
+            75%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+        }
+
+        /* Круг, который заполняется от 0 до 360 градусов */
+        .circle-progress {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+
+            .circle-progress svg {
+                width: 100%;
+                height: 100%;
+                transform: rotate(-90deg);
+            }
+
+            .circle-progress circle {
+                fill: none;
+                stroke: white;
+                stroke-width: 10;
+                stroke-dasharray: 471; /* 2 * PI * 75 = 471 */
+                stroke-dashoffset: 471;
+                animation: circleProgress 12s ease-in-out infinite;
+            }
+
+        @keyframes circleProgress {
+            0%, 25% {
+                stroke-dashoffset: 471;
+                opacity: 0;
+            }
+
+            30% {
+                opacity: 1;
+                stroke-dashoffset: 471;
+            }
+
+            55%, 65% {
+                stroke-dashoffset: 0;
+                opacity: 1;
+            }
+
+            70%, 100% {
+                stroke-dashoffset: 471;
+                opacity: 0;
+            }
+        }
+
+        /* Крестик внутри круга */
+        .cross {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            animation: crossAppear 12s ease-in-out infinite;
+            z-index: 3;
+        }
+
+        @keyframes crossAppear {
+            0%, 50% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0);
+            }
+
+            55%, 65% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            70%, 100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0);
+            }
+        }
+
+        .cross::before,
+        .cross::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 12px;
+            background: white;
+            border-radius: 6px;
+            top: 50%;
+            left: 50%;
+        }
+
+        .cross::before {
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        .cross::after {
+            transform: translate(-50%, -50%) rotate(-45deg);
+        }
+
+        .description {
+            text-align: center;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">🎬 Анимации CSS</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="animation2.html">Анимация 2</a></li>
+                <li><a href="animation5.html">Анимация 5</a></li>
+                <li><a href="animation7.html">Анимация 7</a></li>
+                <li><a href="animation23.html">Анимация 23</a></li>
+            </ul>
+            <div class="burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <section class="animation-container">
+        <div class="rectangle">
+            <!-- Три линии внутри прямоугольника -->
+            <div class="line line-top"></div>
+            <div class="line line-center"></div>
+            <div class="line line-bottom"></div>
+
+            <!-- SVG круг, который заполняется -->
+            <div class="circle-progress">
+                <svg>
+                    <circle cx="75" cy="75" r="75"></circle>
+                </svg>
+            </div>
+
+            <!-- Крестик внутри круга -->
+            <div class="cross"></div>
+        </div>
+    </section>
+
+    <section class="description">
+        <div class="container">
+            <h2>Анимация 5: Прямоугольник с линиями</h2>
+            <p>ОДИН прямоугольник с тремя линиями и несколькими этапами анимации:</p>
+
+            <div class="tech-details">
+                <h3>Этапы анимации:</h3>
+                <ol>
+                    <li><strong>Верхняя и нижняя линии перекрещиваются</strong> - образуют крест (как в круге)</li>
+                    <li><strong>Центральная линия уезжает вправо</strong> - исчезает за границей</li>
+                    <li><strong>Круг появляется и заполняется от 0° до 360°</strong> - как прогресс-бар</li>
+                    <li><strong>Внутри круга появляется крестик</strong></li>
+                    <li><strong>Фон прямоугольника меняет цвет</strong> - с серого на розовый</li>
+                    <li><strong>Всё возвращается обратно</strong> - в исходное состояние</li>
+                    <li><strong>Цикл повторяется</strong></li>
+                </ol>
+
+                <h3>Использованные техники:</h3>
+                <ul>
+                    <li><strong>@keyframes</strong> - синхронизированные анимации</li>
+                    <li><strong>SVG circle</strong> - круг с stroke-dasharray для заполнения</li>
+                    <li><strong>stroke-dashoffset</strong> - анимация заполнения круга от 0 до 360°</li>
+                    <li><strong>transform: rotate()</strong> - вращение линий для перекрещивания</li>
+                    <li><strong>transform: translateX()</strong> - движение центральной линии</li>
+                    <li><strong>opacity</strong> - появление/исчезновение элементов</li>
+                    <li><strong>animation на background</strong> - изменение цвета фона</li>
+                    <li><strong>z-index</strong> - слои элементов (линии → круг → крестик)</li>
+                </ul>
+
+                <h3>Детали реализации:</h3>
+                <ul>
+                    <li>Круг рисуется через SVG с радиусом 75px</li>
+                    <li>stroke-dasharray: 471 (длина окружности = 2πr)</li>
+                    <li>stroke-dashoffset анимируется от 471 до 0 для эффекта заполнения</li>
+                    <li>Все анимации синхронизированы на 12 секунд</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Лабораторная работа №3</h3>
+                <p>Анимация 5 - Прямоугольник с линиями</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Лабораторная работа №3</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

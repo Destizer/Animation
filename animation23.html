@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анимация 23 - Башня</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .animation-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 70vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+        }
+
+        .tower-scene {
+            position: relative;
+            width: 500px;
+            height: 700px;
+            background: linear-gradient(180deg, #87CEEB 0%, #E0F6FF 50%, #FFE5B4 100%);
+            border-radius: 250px 250px 250px 250px / 350px 350px 350px 350px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        /* Солнце */
+        .sun {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, #FDB813 0%, #FF8C00 100%);
+            border-radius: 50%;
+            top: 80px;
+            right: 100px;
+            box-shadow: 0 0 50px rgba(255, 140, 0, 0.6);
+            z-index: 1;
+        }
+
+        /* Облака на заднем плане */
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 100px;
+            z-index: 2;
+        }
+
+            .cloud::before,
+            .cloud::after {
+                content: '';
+                position: absolute;
+                background: rgba(255, 255, 255, 0.8);
+                border-radius: 50%;
+            }
+
+        .cloud1 {
+            width: 100px;
+            height: 40px;
+            top: 100px;
+            left: -120px;
+            animation: cloudFloat1 25s linear infinite;
+        }
+
+            .cloud1::before {
+                width: 50px;
+                height: 50px;
+                top: -25px;
+                left: 15px;
+            }
+
+            .cloud1::after {
+                width: 60px;
+                height: 60px;
+                top: -30px;
+                right: 15px;
+            }
+
+        @keyframes cloudFloat1 {
+            from {
+                left: -120px;
+            }
+
+            to {
+                left: 520px;
+            }
+        }
+
+        .cloud2 {
+            width: 120px;
+            height: 45px;
+            top: 150px;
+            left: -140px;
+            animation: cloudFloat2 30s linear infinite;
+            animation-delay: 5s;
+        }
+
+            .cloud2::before {
+                width: 55px;
+                height: 55px;
+                top: -28px;
+                left: 20px;
+            }
+
+            .cloud2::after {
+                width: 65px;
+                height: 65px;
+                top: -33px;
+                right: 20px;
+            }
+
+        @keyframes cloudFloat2 {
+            from {
+                left: -140px;
+            }
+
+            to {
+                left: 540px;
+            }
+        }
+
+        .cloud3 {
+            width: 90px;
+            height: 35px;
+            top: 200px;
+            left: -110px;
+            animation: cloudFloat3 28s linear infinite;
+            animation-delay: 10s;
+        }
+
+            .cloud3::before {
+                width: 45px;
+                height: 45px;
+                top: -23px;
+                left: 12px;
+            }
+
+            .cloud3::after {
+                width: 55px;
+                height: 55px;
+                top: -28px;
+                right: 12px;
+            }
+
+        @keyframes cloudFloat3 {
+            from {
+                left: -110px;
+            }
+
+            to {
+                left: 510px;
+            }
+        }
+
+        /* Горы */
+        .mountains {
+            position: absolute;
+            bottom: 200px;
+            width: 100%;
+            height: 200px;
+            z-index: 3;
+        }
+
+        .mountain {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-bottom: 180px solid #8B4513;
+            filter: brightness(0.6);
+        }
+
+        .mountain1 {
+            left: -30px;
+            bottom: 0;
+        }
+
+        .mountain2 {
+            left: 130px;
+            bottom: 0;
+            border-bottom-color: #654321;
+        }
+
+        .mountain3 {
+            right: 50px;
+            bottom: 0;
+            border-left-width: 120px;
+            border-right-width: 120px;
+            border-bottom-width: 200px;
+        }
+
+        /* Лес */
+        .forest {
+            position: absolute;
+            bottom: 100px;
+            width: 100%;
+            height: 100px;
+            z-index: 4;
+        }
+
+        .tree {
+            position: absolute;
+            bottom: 0;
+        }
+
+        /* Ствол дерева */
+        .tree-trunk {
+            position: absolute;
+            width: 8px;
+            height: 20px;
+            background: #4a2511;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Крона дерева */
+        .tree-crown {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 60px solid #2d5016;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .tree1 {
+            left: 50px;
+        }
+
+        .tree2 {
+            left: 90px;
+            transform: scale(0.8);
+        }
+
+        .tree3 {
+            left: 140px;
+            transform: scale(1.1);
+        }
+
+        .tree4 {
+            left: 200px;
+        }
+
+        .tree5 {
+            left: 250px;
+            transform: scale(0.9);
+        }
+
+        .tree6 {
+            right: 100px;
+        }
+
+        .tree7 {
+            right: 140px;
+            transform: scale(0.85);
+        }
+
+        .tree8 {
+            right: 50px;
+            transform: scale(1.05);
+        }
+
+        /* Башня */
+        .tower {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+        }
+
+        /* Основание башни */
+        .tower-base {
+            width: 80px;
+            height: 150px;
+            background: linear-gradient(to right, #654321 0%, #8B4513 50%, #654321 100%);
+            position: relative;
+            margin: 0 auto;
+        }
+
+            .tower-base::before {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 10px;
+                background: #4a2511;
+                top: 30px;
+            }
+
+            .tower-base::after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 10px;
+                background: #4a2511;
+                top: 60px;
+            }
+
+        /* Платформа */
+        .tower-platform {
+            width: 100px;
+            height: 20px;
+            background: linear-gradient(to bottom, #8B4513 0%, #654321 100%);
+            position: relative;
+            margin: 0 auto;
+        }
+
+        /* Крыша */
+        .tower-roof {
+            width: 0;
+            height: 0;
+            border-left: 60px solid transparent;
+            border-right: 60px solid transparent;
+            border-bottom: 60px solid #8B0000;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        /* Флаг */
+        .flag {
+            position: absolute;
+            width: 3px;
+            height: 40px;
+            background: #333;
+            left: 50%;
+            top: -40px;
+            transform: translateX(-50%);
+        }
+
+            .flag::before {
+                content: '🚩';
+                position: absolute;
+                top: 0;
+                left: 3px;
+                font-size: 1.2rem;
+                animation: flagWave 2s ease-in-out infinite;
+                transform-origin: left center;
+            }
+
+        @keyframes flagWave {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+
+            50% {
+                transform: rotate(15deg);
+            }
+        }
+
+        /* Окна */
+        .window {
+            width: 20px;
+            height: 25px;
+            background: #FFD700;
+            position: absolute;
+            border: 2px solid #4a2511;
+        }
+
+        .window1 {
+            top: 40px;
+            left: 30px;
+        }
+
+        .window2 {
+            top: 80px;
+            left: 30px;
+        }
+
+        .window3 {
+            top: 120px;
+            left: 30px;
+        }
+
+        /* Птицы */
+        .bird {
+            position: absolute;
+            z-index: 6;
+            animation: birdFly 15s linear infinite;
+        }
+
+        .bird1 {
+            top: 180px;
+            right: -50px;
+            animation-delay: 0s;
+        }
+
+        .bird2 {
+            top: 220px;
+            right: -50px;
+            animation-delay: 3s;
+        }
+
+        .bird3 {
+            top: 160px;
+            right: -50px;
+            animation-delay: 6s;
+        }
+
+        .bird4 {
+            top: 200px;
+            right: -50px;
+            animation-delay: 9s;
+        }
+
+        @keyframes birdFly {
+            from {
+                right: -50px;
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-20px) scale(1.1);
+            }
+
+            to {
+                right: 550px;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .bird svg {
+            width: 35px;
+            height: 25px;
+        }
+
+        .description {
+            text-align: center;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">🎬 Анимации CSS</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="animation2.html">Анимация 2</a></li>
+                <li><a href="animation5.html">Анимация 5</a></li>
+                <li><a href="animation7.html">Анимация 7</a></li>
+                <li><a href="animation23.html">Анимация 23</a></li>
+            </ul>
+            <div class="burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <section class="animation-container">
+        <div class="tower-scene">
+            <div class="sun"></div>
+
+            <div class="cloud cloud1"></div>
+            <div class="cloud cloud2"></div>
+            <div class="cloud cloud3"></div>
+
+            <div class="mountains">
+                <div class="mountain mountain1"></div>
+                <div class="mountain mountain2"></div>
+                <div class="mountain mountain3"></div>
+            </div>
+
+            <div class="forest">
+                <div class="tree tree1">
+                    <div class="tree-trunk"></div>
+                    <div class="tree-crown"></div>
+                </div>
+                <div class="tree tree2">
+                    <div class="tree-trunk"></div>
+                    <div class="tree-crown"></div>
+                </div>
+                <div class="tree tree3">
+                    <div class="tree-trunk"></div>
+                    <div class="tree-crown"></div>
+                </div>
+                <div class="tree tree4">
+                    <div class="tree-trunk"></div>
+                    <div class="tree-crown"></div>
+                </div>
+                <div class="tree tree5">
+                    <div class="tree-trunk"></div>
+                    <div class="tree-crown"></div>
+                </div>
+                <div class="tree tree6">
+                    <div class="tree-trunk"></div>
+                    <div class="tree-crown"></div>
+                </div>
+                <div class="tree tree7">
+                    <div class="tree-trunk"></div>
+                    <div class="tree-crown"></div>
+                </div>
+                <div class="tree tree8">
+                    <div class="tree-trunk"></div>
+                    <div class="tree-crown"></div>
+                </div>
+            </div>
+
+            <div class="tower">
+                <div class="tower-roof">
+                    <div class="flag"></div>
+                </div>
+                <div class="tower-platform"></div>
+                <div class="tower-base">
+                    <div class="window window1"></div>
+                    <div class="window window2"></div>
+                    <div class="window window3"></div>
+                </div>
+            </div>
+
+            <div class="bird bird1">
+                <svg viewBox="0 0 50 30">
+                    <path d="M 45 15 Q 35 5, 25 15 Q 15 5, 5 15" stroke="#654321" stroke-width="3" fill="none" stroke-linecap="round" />
+                </svg>
+            </div>
+            <div class="bird bird2">
+                <svg viewBox="0 0 50 30">
+                    <path d="M 45 15 Q 35 5, 25 15 Q 15 5, 5 15" stroke="#654321" stroke-width="3" fill="none" stroke-linecap="round" />
+                </svg>
+            </div>
+            <div class="bird bird3">
+                <svg viewBox="0 0 50 30">
+                    <path d="M 45 15 Q 35 5, 25 15 Q 15 5, 5 15" stroke="#654321" stroke-width="3" fill="none" stroke-linecap="round" />
+                </svg>
+            </div>
+            <div class="bird bird4">
+                <svg viewBox="0 0 50 30">
+                    <path d="M 45 15 Q 35 5, 25 15 Q 15 5, 5 15" stroke="#654321" stroke-width="3" fill="none" stroke-linecap="round" />
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <div class="container">
+            <h2>Анимация 23: Башня с пейзажем</h2>
+            <p>Полноценная сцена с несколькими слоями анимации.</p>
+
+            <div class="tech-details">
+                <h3>Исправления:</h3>
+                <ul>
+                    <li>✅ <strong>Птицы</strong> - SVG птицы в форме галочки, летят справа налево</li>
+                    <li>✅ <strong>Флаг</strong> - стоит НА вершине крыши (top: -40px от крыши)</li>
+                    <li>✅ <strong>Стволы деревьев</strong> - отдельные элементы, расположены ВНИЗУ</li>
+                </ul>
+
+                <h3>Использованные техники:</h3>
+                <ul>
+                    <li><strong>SVG</strong> - векторные птицы</li>
+                    <li><strong>Правильная структура деревьев</strong> - trunk внизу, crown сверху</li>
+                    <li><strong>Абсолютное позиционирование</strong> - флаг на крыше</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Лабораторная работа №3</h3>
+                <p>Анимация 23 - Башня с пейзажем</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Лабораторная работа №3</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

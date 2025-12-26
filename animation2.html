@@ -1,0 +1,372 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анимация 2 - Свечки</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .animation-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 70vh;
+            background: #1a1a2e;
+            animation: bgDarkness 6s ease-in-out infinite;
+        }
+
+        @keyframes bgDarkness {
+            0%, 40% {
+                background: #1a1a2e;
+            }
+
+            45%, 55% {
+                background: #0a0a0f;
+            }
+
+            60%, 100% {
+                background: #1a1a2e;
+            }
+        }
+
+        .candles-scene {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 80px;
+        }
+
+        /* Свеча */
+        .candle {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Короткая свеча */
+        .candle-short {
+            z-index: 2;
+        }
+
+            .candle-short .candle-body {
+                width: 60px;
+                height: 120px;
+                background: linear-gradient(to right, #d4a574 0%, #e8c9a0 50%, #d4a574 100%);
+                border-radius: 5px 5px 0 0;
+                position: relative;
+            }
+
+            .candle-short .candle-top {
+                width: 60px;
+                height: 15px;
+                background: #f0e0c0;
+                border-radius: 50%;
+            }
+
+        /* Длинная свеча */
+        .candle-tall {
+            z-index: 1;
+        }
+
+            .candle-tall .candle-body {
+                width: 60px;
+                height: 180px;
+                background: linear-gradient(to right, #b89968 0%, #d4a574 50%, #b89968 100%);
+                border-radius: 5px 5px 0 0;
+            }
+
+            .candle-tall .candle-top {
+                width: 60px;
+                height: 15px;
+                background: #e8c9a0;
+                border-radius: 50%;
+            }
+
+        /* Фитиль */
+        .wick {
+            width: 3px;
+            height: 20px;
+            background: #2c2c2c;
+            margin-bottom: 0;
+        }
+
+        /* Пламя */
+        .flame {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 30px;
+            background: radial-gradient(circle, #ffeb3b 0%, #ff9800 40%, #ff5722 70%, transparent 70%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: flicker 0.3s ease-in-out infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% {
+                transform: translateX(-50%) scale(1);
+            }
+
+            50% {
+                transform: translateX(-50%) scale(1.05, 0.95);
+            }
+        }
+
+        .flame::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 15px;
+            background: radial-gradient(circle, #ffffcc 0%, #ffeb3b 50%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        /* Анимация пламени короткой свечи */
+        .candle-short .flame {
+            animation: flameShort 6s ease-in-out infinite;
+        }
+
+        @keyframes flameShort {
+            0%, 35% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1);
+            }
+
+            40%, 50% {
+                opacity: 0;
+                transform: translateX(-50%) scale(0.1);
+            }
+
+            55%, 60% {
+                opacity: 0.3;
+                transform: translateX(-50%) scale(0.3);
+            }
+
+            65%, 100% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1);
+            }
+        }
+
+        /* Анимация пламени длинной свечи */
+        .candle-tall .flame {
+            animation: flameTall 6s ease-in-out infinite;
+        }
+
+        @keyframes flameTall {
+            0%, 35% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1);
+            }
+
+            38%, 42% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1.2) translateX(-80px);
+            }
+
+            45%, 100% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1);
+            }
+        }
+
+        /* Свечение от пламени */
+        .glow {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255, 193, 7, 0.4) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: glowPulse 0.3s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% {
+                opacity: 0.8;
+                transform: translateX(-50%) scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1.1);
+            }
+        }
+
+        .candle-short .glow {
+            animation: glowShort 6s ease-in-out infinite;
+        }
+
+        @keyframes glowShort {
+            0%, 35% {
+                opacity: 0.8;
+                transform: translateX(-50%) scale(1);
+            }
+
+            40%, 60% {
+                opacity: 0;
+                transform: translateX(-50%) scale(0.1);
+            }
+
+            65%, 100% {
+                opacity: 0.8;
+                transform: translateX(-50%) scale(1);
+            }
+        }
+
+        /* Дым от задутой свечи */
+        .smoke {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            width: 3px;
+            height: 40px;
+            opacity: 0;
+            animation: smokeRise 6s ease-in-out infinite;
+        }
+
+        @keyframes smokeRise {
+            40% {
+                opacity: 0;
+            }
+
+            45%, 50% {
+                opacity: 0.6;
+                transform: translateX(-50%) translateY(-30px);
+            }
+
+            60% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-60px);
+            }
+        }
+
+        .smoke::before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 15px;
+            background: rgba(150, 150, 150, 0.5);
+            border-radius: 50%;
+            filter: blur(3px);
+        }
+
+        /* Платформа */
+        .platform {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 40px;
+            background: linear-gradient(to bottom, #8b7355 0%, #6d5940 100%);
+            border-radius: 5px;
+        }
+
+        .description {
+            text-align: center;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">🎬 Анимации CSS</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="animation2.html">Анимация 2</a></li>
+                <li><a href="animation5.html">Анимация 5</a></li>
+                <li><a href="animation7.html">Анимация 7</a></li>
+                <li><a href="animation23.html">Анимация 23</a></li>
+            </ul>
+            <div class="burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <section class="animation-container">
+        <div class="candles-scene">
+            <div class="platform"></div>
+
+            <!-- Короткая свеча (слева) -->
+            <div class="candle candle-short">
+                <div class="wick"></div>
+                <div class="flame"></div>
+                <div class="glow"></div>
+                <div class="smoke"></div>
+                <div class="candle-top"></div>
+                <div class="candle-body"></div>
+            </div>
+
+            <!-- Длинная свеча (справа) -->
+            <div class="candle candle-tall">
+                <div class="wick"></div>
+                <div class="flame"></div>
+                <div class="glow"></div>
+                <div class="candle-top"></div>
+                <div class="candle-body"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <div class="container">
+            <h2>Анимация 2: Свечки</h2>
+            <p>Длинная свеча задувает короткую свечу, комната темнеет. Короткая свеча пытается зажечься снова и успешно загорается, возвращая свет.</p>
+
+            <div class="tech-details">
+                <h3>Этапы анимации:</h3>
+                <ol>
+                    <li><strong>Начало</strong> - обе свечи горят ярко</li>
+                    <li><strong>Задувание</strong> - пламя длинной свечи наклоняется к короткой и задувает её</li>
+                    <li><strong>Темнота</strong> - короткая свеча гаснет, фон темнеет, появляется дым</li>
+                    <li><strong>Возгорание</strong> - короткая свеча пытается загореться (мерцание)</li>
+                    <li><strong>Свет</strong> - короткая свеча разгорается полностью, свет возвращается</li>
+                    <li><strong>Цикл повторяется</strong></li>
+                </ol>
+
+                <h3>Использованные техники:</h3>
+                <ul>
+                    <li><strong>@keyframes</strong> - множественные анимации с синхронизацией</li>
+                    <li><strong>radial-gradient</strong> - создание реалистичного пламени</li>
+                    <li><strong>linear-gradient</strong> - объемные свечи</li>
+                    <li><strong>opacity</strong> - затухание и появление огня</li>
+                    <li><strong>transform: scale()</strong> - изменение размера пламени</li>
+                    <li><strong>transform: translateX()</strong> - движение пламени для задувания</li>
+                    <li><strong>filter: blur()</strong> - эффект дыма</li>
+                    <li><strong>box-shadow и glow</strong> - свечение от пламени</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Лабораторная работа №3</h3>
+                <p>Анимация 2 - Свечки</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Лабораторная работа №3</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
